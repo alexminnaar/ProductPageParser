@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="default"
+		module="productparser$sources_2.12"
+		revision="1.0"
+		conf="test"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20170622100929"/>
+	<dependencies>
+		<module organisation="org.scalatest" name="scalatest_2.12">
+			<revision name="3.2.0-SNAP4" status="release" pubdate="20170216084402" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="2">
+				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="4787" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalatest/scalatest_2.12/ivy-3.2.0-SNAP4.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scalatest/scalatest_2.12/3.2.0-SNAP4/scalatest_2.12-3.2.0-SNAP4.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="3.2.0-SNAP4" rev-constraint-default="3.2.0-SNAP4" rev-constraint-dynamic="3.2.0-SNAP4" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scalatest_2.12" type="jar" ext="jar" status="no" details="" size="8580440" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalatest/scalatest_2.12/jars/scalatest_2.12-3.2.0-SNAP4.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scalatest/scalatest_2.12/3.2.0-SNAP4/scalatest_2.12-3.2.0-SNAP4.jar"/>
+					</artifact>
+					<artifact name="scalatest_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1688044" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalatest/scalatest_2.12/srcs/scalatest_2.12-3.2.0-SNAP4-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scalatest/scalatest_2.12/3.2.0-SNAP4/scalatest_2.12-3.2.0-SNAP4-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang.modules" name="scala-parser-combinators_2.12">
+			<revision name="1.0.4" status="release" pubdate="20161028161045" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="6">
+				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="2803" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/ivy-1.0.4.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="1.0.4" rev-constraint-default="1.0.4" rev-constraint-dynamic="1.0.4" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-parser-combinators_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="42274" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/srcs/scala-parser-combinators_2.12-1.0.4-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4-sources.jar"/>
+					</artifact>
+					<artifact name="scala-parser-combinators_2.12" type="jar" ext="jar" status="no" details="" size="204313" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/jars/scala-parser-combinators_2.12-1.0.4.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/modules/scala-parser-combinators_2.12/1.0.4/scala-parser-combinators_2.12-1.0.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang.modules" name="scala-xml_2.12">
+			<revision name="1.0.5" status="release" pubdate="20161028161007" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="5">
+				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="3011" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/ivy-1.0.5.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/modules/scala-xml_2.12/1.0.5/scala-xml_2.12-1.0.5.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="1.0.5" rev-constraint-default="1.0.5" rev-constraint-dynamic="1.0.5" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-xml_2.12" type="jar" ext="jar" status="no" details="" size="548430" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/jars/scala-xml_2.12-1.0.5.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/modules/scala-xml_2.12/1.0.5/scala-xml_2.12-1.0.5.jar"/>
+					</artifact>
+					<artifact name="scala-xml_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="109241" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/srcs/scala-xml_2.12-1.0.5-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/modules/scala-xml_2.12/1.0.5/scala-xml_2.12-1.0.5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalactic" name="scalactic_2.12">
+			<revision name="3.2.0-SNAP4" status="release" pubdate="20170216084257" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="3">
+				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2847" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalactic/scalactic_2.12/ivy-3.2.0-SNAP4.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scalactic/scalactic_2.12/3.2.0-SNAP4/scalactic_2.12-3.2.0-SNAP4.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="3.2.0-SNAP4" rev-constraint-default="3.2.0-SNAP4" rev-constraint-dynamic="3.2.0-SNAP4" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scalactic_2.12" type="jar" ext="jar" status="no" details="" size="1375562" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalactic/scalactic_2.12/jars/scalactic_2.12-3.2.0-SNAP4.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scalactic/scalactic_2.12/3.2.0-SNAP4/scalactic_2.12-3.2.0-SNAP4.jar"/>
+					</artifact>
+					<artifact name="scalactic_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="183688" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scalactic/scalactic_2.12/srcs/scalactic_2.12-3.2.0-SNAP4-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scalactic/scalactic_2.12/3.2.0-SNAP4/scalactic_2.12-3.2.0-SNAP4-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-reflect">
+			<revision name="2.12.1" status="release" pubdate="20161205030619" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.1/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="4">
+				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
+				<metadata-artifact status="no" details="" size="2825" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-reflect/ivy-2.12.1.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-reflect/2.12.1/scala-reflect-2.12.1.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="1.0" extra-info.apiURL="http://www.scala-lang.org/api/2.12.1/"/>
+				<artifacts>
+					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="572951" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.12.1-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-reflect/2.12.1/scala-reflect-2.12.1-sources.jar"/>
+					</artifact>
+					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3538697" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.1.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-reflect/2.12.1/scala-reflect-2.12.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jsoup" name="jsoup">
+			<revision name="1.10.2" status="release" pubdate="20170102114116" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://jsoup.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+				<license name="The MIT License" url="https://jsoup.org/license"/>
+				<metadata-artifact status="no" details="" size="3363" time="0" location="/Users/alexminnaar/.ivy2/cache/org.jsoup/jsoup/ivy-1.10.2.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/jsoup/jsoup/1.10.2/jsoup-1.10.2.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="1.10.2" rev-constraint-default="1.10.2" rev-constraint-dynamic="1.10.2" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="jsoup" type="jar" ext="jar" status="no" details="" size="350645" time="0" location="/Users/alexminnaar/.ivy2/cache/org.jsoup/jsoup/jars/jsoup-1.10.2.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/jsoup/jsoup/1.10.2/jsoup-1.10.2.jar"/>
+					</artifact>
+					<artifact name="jsoup" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="168517" time="0" location="/Users/alexminnaar/.ivy2/cache/org.jsoup/jsoup/srcs/jsoup-1.10.2-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/jsoup/jsoup/1.10.2/jsoup-1.10.2-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.12.2" status="release" pubdate="20170413011911" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.2/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
+				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
+				<metadata-artifact status="no" details="" size="2653" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-library/ivy-2.12.2.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.12.2/scala-library-2.12.2.pom"/>
+				<caller organisation="default" name="productparser$sources_2.12" conf="test, compile, runtime" rev="2.12.2" rev-constraint-default="2.12.2" rev-constraint-dynamic="2.12.2" callerrev="1.0" extra-info.apiURL="http://www.scala-lang.org/api/2.12.2/"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5278660" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.2.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.12.2/scala-library-2.12.2.jar"/>
+					</artifact>
+					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="990185" time="0" location="/Users/alexminnaar/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.2-sources.jar">
+						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.12.2/scala-library-2.12.2-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
