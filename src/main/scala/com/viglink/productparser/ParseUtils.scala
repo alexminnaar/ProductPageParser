@@ -2,10 +2,8 @@ package com.viglink.productparser
 
 import java.io.File
 
-import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2DTM2.AttributeIterator
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Attribute, Document, Element}
-import org.jsoup.parser.Tag
 
 import scala.collection.JavaConversions._
 
@@ -19,11 +17,8 @@ case class ParseResult(title: Option[String],
 sealed trait TagValue
 
 case class Content() extends TagValue
-
 case class Text() extends TagValue
-
 case class Value() extends TagValue
-
 case class Source() extends TagValue
 
 object ParseUtils {
@@ -79,8 +74,56 @@ object ParseUtils {
   def isLogoImage(imageUrl: String): Boolean = {
 
     val urlEnd = imageUrl.split("/").last
+    urlEnd.toLowerCase().contains("logo")
 
-    if (urlEnd.toLowerCase().contains("logo")) {
+  }
+
+  def isImage(candidateValue: String): Boolean = {
+    candidateValue.contains(".jpg") ||
+      candidateValue.contains(".jpeg") ||
+      candidateValue.contains(".png") ||
+      candidateValue.contains(".gif") ||
+      candidateValue.takeRight(4) == "jpeg"
+  }
+
+
+  def generalPriceRules(attribute: Attribute,
+                        tag: Element,
+                        candidateValue: String
+                       ): Boolean = {
+
+    val numPattern = "[0-9]+".r
+
+    /*
+    Attribute value should contain "price" but not "cart" or "ourPrice2".
+    The tag should not be "a" or "img".
+    The candidate value should contain a number and be less than 20 characters.
+     */
+    attribute.getValue.toLowerCase().contains("price") &&
+      attribute.getValue != "ourPrice2" && //toys'r'us specific rule
+      !attribute.getValue.contains("cart") &&
+      tag.tagName() != "a" &&
+      tag.tagName() != "img" &&
+      numPattern.findFirstIn(candidateValue).isDefined &&
+      candidateValue.size < 20
+
+  }
+
+  //Special high confidence price rule that should supercede every other price rule
+  def specialPriceRules(attribute: Attribute,
+                        candidateValue: String): Boolean = {
+
+    val numPattern = "[0-9]+".r
+
+    //checking if key is "itemprop" and value contains "price" and candidate contains a number
+    if (attribute.getKey() == "itemprop" &&
+      numPattern.findFirstIn(candidateValue).isDefined &&
+      attribute.getValue.toLowerCase().contains("price")) {
+      true
+    }
+    //amazon specific rule - high confidence
+    else if (attribute.getValue == "a-size-medium a-color-price" &&
+      numPattern.findFirstIn(candidateValue).isDefined) {
       true
     }
     else {
@@ -89,47 +132,103 @@ object ParseUtils {
 
   }
 
-//
-//  def priceRules(attribute: Attribute,
-//                 tag: Element,
-//                 candidateValue: String,
-//                 parsedPrice: Option[String],
-//                 itemPropPrice: Boolean): Boolean = {
-//
-//    val numPattern = "[0-9]+".r
-//
-//    if (attribute.getValue.toLowerCase().contains("price") &&
-//      attribute.getValue != "ourPrice2" && //toys'r'us specific rule
-//      !attribute.getValue.contains("cart") &&
-//      tag.tagName() != "a" &&
-//      tag.tagName() != "img"
-//    ) {
-//
-//      //only use the first match and make sure it contains numbers
-//      if (!parsedPrice.isDefined &&
-//        numPattern.findFirstIn(candidateValue).isDefined &&
-//        candidateValue.size < 20) {
-//        parsedPrice = candidateValue
-//      }
-//
-//      //itemprop="price" is a very high confidence rule so it should supercede everything
-//      if (attribute.getKey() == "itemprop" &&
-//        numPattern.findFirstIn(candidateValue.get).isDefined &&
-//        !itemPropPrice) {
-//        parsedPrice = candidateValue
-//        itemPropPrice = true
-//      }
-//
-//      //amazon specific rule
-//      if (attribute.getValue == "a-size-medium a-color-price" &&
-//        !amazonPrice) {
-//        parsedPrice = candidateValue
-//        amazonPrice = true
-//      }
-//
-//
-//    }
-//  }
+  def generalTitleRules(attribute: Attribute, tag: Element): Boolean = {
+
+    /*
+    The attribute should contain "title".
+    The attribute should not contain "subtitle", "review", or "modal".
+    The tag should not be "div", "p", "h3", or "h4".
+     */
+    attribute.getValue.contains("title") &&
+      !attribute.getValue.contains("subtitle") &&
+      !attribute.getValue.contains("review") &&
+      !attribute.getValue.contains("modal") &&
+      tag.tagName() != "div" &&
+      tag.tagName() != "p" &&
+      tag.tagName() != "h3" &&
+      tag.tagName() != "h4"
+  }
+
+  //Special high confidence title rule that should supercede every other title rule
+  def specialTitleRules(attribute: Attribute): Boolean = {
+    attribute.getValue == "og:title"
+  }
+
+  def generalImageRules(tag: Element,
+                        attribute: Attribute,
+                        candidateValue: String): Boolean = {
+
+    /*
+     Attribute value should contain "image".
+     Attribute value should not contain ".png" or ".gif".
+     Tag should not be "div".
+     Candidate value should be a valid image.
+     Candidate value should not be a logo image.
+     */
+    attribute.getValue.contains("image") &&
+      !attribute.getValue.contains(".png") &&
+      !attribute.getValue.contains(".gif") &&
+      tag.tagName() != "div" &&
+      isImage(candidateValue) &&
+      !isLogoImage(candidateValue)
+
+  }
+
+  //Special high confidence image rule that should supercede every other image rule
+  def specialImageRules(attribute: Attribute, candidateValue: String): Boolean = {
+    attribute.getKey() == "property" && attribute.getValue == "og:image" && !isLogoImage(candidateValue)
+  }
+
+  def generalSkuRules(attribute: Attribute,
+                      tag: Element,
+                      candidateValue: String): Boolean = {
+
+    val numPattern = "[0-9]+".r
+
+    /*
+    Attribute value should contain "sku".
+    Attribute value should not contain "price".
+    Tag should not be "a".
+    Candidate value should be between 4 and 15 characters.
+     */
+    attribute.getValue.contains("sku") &&
+      !attribute.getValue.contains("price") &&
+      tag.tagName() != "a" &&
+      candidateValue.size < 15 &&
+      candidateValue.size > 4 &&
+      numPattern.findFirstIn(candidateValue).isDefined
+
+  }
+
+
+  def generalAvailabilityRules(attribute: Attribute,
+                               tag: Element,
+                               candidateValue: String): Boolean = {
+
+    /*
+    Attribute should contain "stock", "availability", "available", or "onhand".
+    Attribute should not contain "stocknum", "availableformat", "price",or "overstock".
+    Tag should not be "a", "button", or "li".
+    The candidate value should not contain "{".
+    The candidate value should not contain "overstock".
+    The candidate value should not be longer than 45 characters.
+    */
+    (attribute.getValue.contains("stock") ||
+      attribute.getValue.contains("availability") ||
+      attribute.getValue.contains("available") ||
+      attribute.getValue.contains("onhand")) &&
+      attribute.getValue != "stocknum" &&
+      !attribute.getValue.contains("availableformat") &&
+      !attribute.getValue.contains("price") &&
+      !attribute.getValue.toLowerCase().contains("overstock") &&
+      tag.tagName() != "a" &&
+      tag.tagName() != "button" &&
+      tag.tagName() != "li" &&
+      !candidateValue.toLowerCase().contains("{") &&
+      !candidateValue.toLowerCase().contains("overstock") &&
+      candidateValue.size < 45
+
+  }
 
 
   def ruleBasedParser(doc: Document): ParseResult = {
@@ -143,142 +242,75 @@ object ParseUtils {
     //get all tags
     val tags = doc.select("*")
 
-    var itemPropPrice = false
-    var amazonPrice = false
-    val numPattern = "[0-9]+".r
-
     tags.foreach { tag =>
 
       tag.attributes().foreach { attribute =>
 
-        //The value of interest would be in the content attribute or the tag text
         val candidateValue = searchTag(tag)
 
         if (candidateValue.isDefined) {
-          //If the attribute value contains the word 'price' then the
-          //actual price is probably associated with this tag
-          if (attribute.getValue.toLowerCase().contains("price") &&
-            attribute.getValue != "ourPrice2" && //toys'r'us specific rule
-            !attribute.getValue.contains("cart") &&
-            tag.tagName() != "a" &&
-            tag.tagName() != "img"
-          ) {
 
-            //only use the first match and make sure it contains numbers
-            if (!parsedPrice.isDefined &&
-              numPattern.findFirstIn(candidateValue.get).isDefined &&
-              candidateValue.get.size < 20) {
+          //Price Extraction
+          //only try general price rule if price has not yet been found
+          if (!parsedPrice.isDefined) {
+
+            if (generalPriceRules(attribute, tag, candidateValue.get)) {
               parsedPrice = candidateValue
             }
-
-            //itemprop="price" is a very high confidence rule so it should supercede everything
-            if (attribute.getKey() == "itemprop" &&
-              numPattern.findFirstIn(candidateValue.get).isDefined &&
-              !itemPropPrice) {
-              parsedPrice = candidateValue
-              itemPropPrice = true
-            }
-
-            //amazon specific rule
-            if (attribute.getValue == "a-size-medium a-color-price" &&
-              !amazonPrice) {
-              parsedPrice = candidateValue
-              amazonPrice = true
-            }
-
           }
 
-          if (attribute.getValue.contains("title") &&
-            !attribute.getValue.contains("subtitle") &&
-            !attribute.getValue.contains("review") && //exclude review titles, only interested in product titles
-            !attribute.getValue.contains("modal") &&
-            tag.tagName() != "div" &&
-            tag.tagName() != "p" &&
-            tag.tagName() != "h3" &
-            tag.tagName() != "h4") {
-
-            //print(tag)
+          //Even if price has already been found, try special high confidence rules which supercede general rules
+          if (specialPriceRules(attribute, candidateValue.get)) {
+            parsedPrice = candidateValue
+          }
 
 
-            if (!parsedTitle.isDefined) {
+          //Title Extraction
+          //only try general title rule if price has not yet been found
+          if (!parsedTitle.isDefined) {
+
+            if (generalTitleRules(attribute, tag)) {
               parsedTitle = candidateValue
             }
-
-            //property=og:title is a high confidence rule which should supercede everything
-            if (attribute.getValue == "og:title") {
-              parsedTitle = candidateValue
-            }
-
           }
 
-          if (attribute.getValue.contains("image") &&
-            !attribute.getValue.contains(".png") &&
-            !attribute.getValue.contains(".gif") &&
-            tag.tagName() != "div"
-          ) {
-
-            //println(tag)
-            //println(isLogoImage(candidateValue.get))
-
-            val isImage = candidateValue.get.contains(".jpg") ||
-              candidateValue.get.contains(".jpeg") ||
-              candidateValue.get.contains(".png") ||
-              candidateValue.get.contains(".gif") ||
-              candidateValue.get.takeRight(4) == "jpeg"
-
-            if (!parsedImageUrl.isDefined &&
-              isImage &&
-              !isLogoImage(candidateValue.get)) {
-              //println("SET!!!!!!!!!!!!")
-              parsedImageUrl = candidateValue
-            }
-
-
-            //property=og:image is a very high confidence rule, so let this supercede everything
-            if (attribute.getKey() == "property" && attribute.getValue == "og:image" && !isLogoImage(candidateValue.get)) {
-              //println("SET BY itemprop=og:image !!!!!!")
-              parsedImageUrl = candidateValue
-            }
-
-
+          //Even if title has already been found, try special high confidence rules which supercede general rules
+          if (specialTitleRules(attribute)) {
+            parsedTitle = candidateValue
           }
 
-          if (attribute.getValue.contains("sku") &&
-            tag.tagName() != "a" &&
-            !attribute.getValue.contains("price")) {
+          //Image Extraction
+          //only try general image rule if image has not yet been found
+          if (!parsedImageUrl.isDefined) {
 
+            if (generalImageRules(tag, attribute, candidateValue.get)) {
+              parsedImageUrl = candidateValue
+            }
+          }
 
-            if (!parsedSku.isDefined &&
-              candidateValue.get.size < 15 &&
-              candidateValue.get.size > 4 &&
-              numPattern.findFirstIn(candidateValue.get).isDefined) {
+          //Even if image has already been found, try special high confidence rules which supercede general rules
+          if (specialImageRules(attribute, candidateValue.get)) {
+            parsedImageUrl = candidateValue
+          }
 
+          //Sku Extraction
+          //only try general image rule if image has not yet been found
+          if (!parsedSku.isDefined) {
 
+            if (generalSkuRules(attribute, tag, candidateValue.get)) {
               parsedSku = candidateValue
             }
           }
 
-          if ((attribute.getValue.contains("stock") ||
-            attribute.getValue.contains("availability") ||
-            attribute.getValue.contains("available") ||
-            attribute.getValue.contains("onhand")) &&
-            attribute.getValue != "stocknum" &&
-            !attribute.getValue.contains("availableformat") &&
-            !attribute.getValue.contains("price") &&
-            tag.tagName() != "a" &&
-            !attribute.getValue.toLowerCase().contains("overstock") &&
-            tag.tagName() != "button" &&
-            tag.tagName() != "li"
-          ) {
+          //Availability Extraction
+          //only try general availability rule if availability has not yet been found
+          if (!parsedAvailability.isDefined) {
 
-
-            if (!parsedAvailability.isDefined &&
-              !candidateValue.get.toLowerCase().contains("overstock") &&
-              !candidateValue.get.toLowerCase().contains("{") && //midwayusa rule
-              candidateValue.get.size < 45) {
+            if (generalAvailabilityRules(attribute, tag, candidateValue.get)) {
               parsedAvailability = candidateValue
             }
           }
+
         }
       }
     }
